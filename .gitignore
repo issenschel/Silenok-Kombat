@@ -53,4 +53,4 @@ cached-antora-playbook.yml
 
 node_modules
 
-resources/
+src/main/resources/

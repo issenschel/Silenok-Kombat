@@ -1,8 +1,10 @@
 package com.example.silenokkombat.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
 @Table(name = "users_token")
 public class UserToken {
     @Id

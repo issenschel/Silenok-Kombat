@@ -1,11 +1,12 @@
 package com.example.silenokkombat.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.Collection;
-import java.util.List;
 
 @Entity
+@Data
 @Table(name = "users")
 public class User {
     @Id
@@ -26,6 +27,6 @@ public class User {
     private Collection<Role> roles;
 
     @OneToOne(mappedBy = "user")
-    private UserToken tokenVersion;
+    private UserToken userToken;
 
 }
