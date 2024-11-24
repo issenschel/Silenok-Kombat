@@ -29,4 +29,7 @@ public class User {
     @OneToOne(mappedBy = "user")
     private UserToken userToken;
 
+    @OneToOne(mappedBy = "user")
+    private UserInformation userInformation;
+
 }
