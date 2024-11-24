@@ -1,10 +1,12 @@
 package com.example.silenokkombat.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.Collection;
 
 @Entity
+@Data
 @Table(name = "roles")
 public class Role {
     @Id
