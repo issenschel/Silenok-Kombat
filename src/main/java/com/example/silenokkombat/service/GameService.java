@@ -1,5 +1,6 @@
 package com.example.silenokkombat.service;
 
+import com.example.silenokkombat.dto.LeaderboardDto;
 import com.example.silenokkombat.dto.StatusResponseDto;
 import com.example.silenokkombat.entity.Player;
 import com.example.silenokkombat.entity.Skin;
@@ -8,7 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,12 +20,14 @@ public class GameService {
     private final PlayerService playerService;
     private final UserService userService;
     private final SkinService skinService;
+    private final LeaderboardService leaderboardService;
 
     public Player getPlayer(){
         Optional<User> user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         return user.map(User::getPlayer).orElse(null);
     }
 
+    @Transactional
     public StatusResponseDto changeCoin(Long coin){
         Optional<User> user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         return user.map(us ->{
@@ -31,6 +36,7 @@ public class GameService {
         }).orElseGet(() -> new StatusResponseDto("Пользователь не найден", HttpStatus.OK));
     }
 
+    @Transactional
     public StatusResponseDto buySkin(Byte id){
         Optional<User> user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         return user.map(us -> {
@@ -44,4 +50,9 @@ public class GameService {
             }).orElse(new StatusResponseDto("Скин не найден", HttpStatus.NOT_FOUND));
         }).orElseGet(() -> new StatusResponseDto("Пользователь не найден", HttpStatus.OK));
     }
+
+    public List<LeaderboardDto> getLeaderboard(){
+        return leaderboardService.getLeaderboard();
+    }
+
 }

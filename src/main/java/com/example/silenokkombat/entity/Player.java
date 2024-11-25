@@ -28,4 +28,7 @@ public class Player {
             inverseJoinColumns = @JoinColumn(name = "skin_id")
     )
     private Collection<Skin> playerSkins;
+
+    @OneToOne(mappedBy = "player")
+    private Leaderboard leaderboard;
 }

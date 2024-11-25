@@ -17,23 +17,21 @@ public class PlayerService {
     private final SkinService skinService;
 
     public void changeCoin(User user, Long coin) {
-        playerRepository.findByUser(user).ifPresent(player -> {
-                player.setCoin(player.getCoin() + coin);
-                playerRepository.save(player);
-        });
+        Player player = user.getPlayer();
+        player.setCoin(player.getCoin() + coin);
+        playerRepository.save(player);
     }
 
     public boolean buySkin(User user, Skin skin){
-        return playerRepository.findByUser(user).map(player -> {
-            Long coin = player.getCoin();
-            if (coin > skin.getCost() && !player.getPlayerSkins().contains(skin)) {
+        Player player = user.getPlayer();
+        Long coin = player.getCoin();
+        if (coin > skin.getCost() && !player.getPlayerSkins().contains(skin)) {
                 player.setCoin(player.getCoin() - skin.getCost());
                 player.getPlayerSkins().add(skin);
                 playerRepository.save(player);
                 return true;
-            }
-            return false;
-        }).orElse(false);
+        }
+        return false;
     }
 
     public Optional<Player> getPlayer(User user){
@@ -46,5 +44,9 @@ public class PlayerService {
         player.setCoin(0L);
         player.setPlayerSkins(List.of(skinService.getStandartSkin().get()));
         playerRepository.save(player);
+    }
+
+    public List<Player> getPlayersForLeaderboard(){
+        return playerRepository.findForLeaderboard();
     }
 }

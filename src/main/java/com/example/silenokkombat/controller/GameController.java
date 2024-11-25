@@ -39,8 +39,6 @@ public class GameController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageDto("Пользователь не найден"));
     }
 
-
-
     @PutMapping("/changeCoin")
     public ResponseEntity<?> changeCoin(@Valid @RequestBody RequestCoinDto requestCoinDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -56,5 +54,9 @@ public class GameController {
         return ResponseEntity.status(statusResponseDto.getStatus()).body(new MessageDto(statusResponseDto.getMessage()));
     }
 
+    @GetMapping("/getLeaderboard")
+    public ResponseEntity<?> getLeaderboard(){
+        return ResponseEntity.ok().body(gameService.getLeaderboard());
+    }
 
 }
