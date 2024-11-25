@@ -5,7 +5,6 @@ import com.example.silenokkombat.dto.JwtRequestDto;
 import com.example.silenokkombat.dto.MessageDto;
 import com.example.silenokkombat.dto.RegistrationDto;
 import com.example.silenokkombat.entity.User;
-import com.example.silenokkombat.entity.UserInformation;
 import com.example.silenokkombat.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,6 +29,7 @@ public class AuthService {
     private final UserInformationService userInformationService;
     private final UserTokenService userTokenService;
     private final AssumptionService assumptionService;
+    private final PlayerService playerService;
 
 
     public AuthTokenDto createAuthToken(@RequestBody JwtRequestDto authRequest) throws BadCredentialsException {
@@ -45,7 +45,8 @@ public class AuthService {
     @Transactional
     public MessageDto createNewUser(@RequestBody RegistrationDto registrationUserDto) {
         User user = userService.createNewUser(registrationUserDto.getUsername(), registrationUserDto.getPassword());
-        UserInformation client = userInformationService.createNewUserInformation(registrationUserDto, user);
+        userInformationService.createNewUserInformation(registrationUserDto, user);
+        playerService.createNewPlayer(user);
         String token = UUID.randomUUID().toString();
         userTokenService.createNewTokenVersion(user,token);
         assumptionService.findByEmail(registrationUserDto.getEmail()).ifPresent(assumptionService::delete);

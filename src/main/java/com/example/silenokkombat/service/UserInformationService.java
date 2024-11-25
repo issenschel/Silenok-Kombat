@@ -14,11 +14,11 @@ import java.util.Optional;
 public class UserInformationService {
     private final UserInformationRepository userInformationRepository;
 
-    public UserInformation createNewUserInformation(RegistrationDto registrationUserDto, User user){
+    public void createNewUserInformation(RegistrationDto registrationUserDto, User user){
         UserInformation userInformation = new UserInformation();
         userInformation.setEmail(registrationUserDto.getEmail());
         userInformation.setUser(user);
-        return userInformationRepository.save(userInformation);
+        userInformationRepository.save(userInformation);
     }
 
     public Optional<UserInformation> findByEmail(String email) {

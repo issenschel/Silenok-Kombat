@@ -21,6 +21,11 @@ public class Player {
     @Column(name = "coin", nullable = false, unique = false)
     private Long coin;
 
-    @OneToMany(mappedBy = "player")
-    private Collection<PlayerSkin> playerSkins;
+    @ManyToMany
+    @JoinTable(
+            name = "player_skins",
+            joinColumns = @JoinColumn(name = "player_id"),
+            inverseJoinColumns = @JoinColumn(name = "skin_id")
+    )
+    private Collection<Skin> playerSkins;
 }
