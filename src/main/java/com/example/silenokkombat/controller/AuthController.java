@@ -27,7 +27,7 @@ public class AuthController {
     @PostMapping("/auth")
     public ResponseEntity<?> createAuthToken(@Valid @RequestBody JwtRequestDto authRequest, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+            return ResponseEntity.badRequest().body(new MessageDto(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage()));
         }
         try {
             return ResponseEntity.ok(authService.createAuthToken(authRequest));

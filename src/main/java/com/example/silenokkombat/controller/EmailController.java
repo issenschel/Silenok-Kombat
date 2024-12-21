@@ -25,7 +25,7 @@ public class EmailController {
     @PostMapping("/sendCode")
     public ResponseEntity<?> sendCode(@Valid @RequestBody EmailDto emailDto, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+            return ResponseEntity.badRequest().body(new MessageDto(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage()));
         }
         Optional<String> validate = registrationValidatorService.validateEmail(emailDto);
         return validate.map(s -> ResponseEntity.status(HttpStatus.CONFLICT).body(new MessageDto(s)))

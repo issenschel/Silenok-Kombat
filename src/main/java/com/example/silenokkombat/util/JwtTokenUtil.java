@@ -50,8 +50,8 @@ public class JwtTokenUtil {
         return getAllClaimsFromToken(token).get("roles", List.class);
     }
 
-    public String getVersionId(String token) {
-        return getAllClaimsFromToken(token).get("versionId", String.class);
+    public String getVersionToken(String token) {
+        return getAllClaimsFromToken(token).get("versionToken", String.class);
     }
 
     private Claims getAllClaimsFromToken(String token) {

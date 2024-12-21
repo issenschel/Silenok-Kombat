@@ -32,4 +32,7 @@ public class User {
     @OneToOne(mappedBy = "user")
     private UserInformation userInformation;
 
+    @OneToOne(mappedBy = "user")
+    private Player player;
+
 }
